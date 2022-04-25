@@ -32,13 +32,13 @@ class Player(pygame.sprite.Sprite):
         if self.rect.right >= self.max_x_constraint:
             self.rect.right = self.max_x_constraint
         else:
-            self.rect.x += 1
+            self.rect.x += 5
 
     def move_left(self):
         if self.rect.left <= 0:
             self.rect.left = 0
         else:
-            self.rect.x -= 1
+            self.rect.x -= 5
 
     def recharge(self):
         if not self.ready:
@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
                 self.ready = True
 
     def shoot_laser(self):
-        self.lasers.add(Laser(self.rect.center, -1, self.rect.bottom))
+        self.lasers.add(Laser(self.rect.center, -5, self.rect.bottom))
 
     def update(self):
         self.get_input()
