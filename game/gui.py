@@ -24,12 +24,15 @@ class Gui:
         victory_rect = victory_surf.get_rect(center=(300, 300))
         self.screen.blit(victory_surf, victory_rect)
 
-    def draw_state(self, player, obstacles, alien_controller):
-        player_sprite = pygame.sprite.GroupSingle(player)
-        player_sprite.sprite.lasers.draw(self.screen)
-        player_sprite.draw(self.screen)
-        self.display_lives(player.number_of_lives)
-        alien_controller.aliens.draw(self.screen)
-        alien_controller.aliens_lasers.draw(self.screen)
-
-        obstacles.blocks.draw(self.screen)
+    def draw_state(self, game_controller):
+        if game_controller.running:
+            game_controller.player_sprite.sprite.lasers.draw(self.screen)
+            game_controller.player_sprite.draw(self.screen)
+            self.display_lives(game_controller.player.number_of_lives)
+            game_controller.alien_controller.aliens.draw(self.screen)
+            game_controller.alien_controller.aliens_lasers.draw(self.screen)
+            game_controller.obstacles.blocks.draw(self.screen)
+        elif game_controller.player.number_of_lives == 0:
+            self.loss_message()
+        else:
+            self.victory_message()

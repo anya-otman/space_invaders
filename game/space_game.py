@@ -26,13 +26,9 @@ def start():
 
         screen.fill((30, 30, 30))
         game_controller.run()
-        gui.draw_state(game_controller.player, game_controller.obstacles, game_controller.alien_controller)
+        gui.draw_state(game_controller)
         pygame.display.flip()
         clock.tick(60)
-
-        if not game_controller.running:
-            pygame.quit()
-            sys.exit()
 
 
 if __name__ == '__main__':

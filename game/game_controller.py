@@ -35,3 +35,6 @@ class GameController:
             self.player.update()
             self.alien_controller.update()
             self.collision_check()
+
+        if not self.alien_controller.aliens:
+            self.running = False
