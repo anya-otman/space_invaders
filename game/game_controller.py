@@ -1,5 +1,5 @@
 import pygame
-from alien_controller import AlienController
+from game.alien_controller import AlienController
 from player import Player
 from obstacles import Obstacles
 
@@ -12,20 +12,18 @@ class GameController:
         self.obstacles = Obstacles(screen_width)
         self.alien_controller = AlienController(5, 8, screen_width, screen_height)
 
+    def check_sprite(self, sprites, *args):
+        for spr in sprites:
+            for arg in args:
+                if pygame.sprite.spritecollide(spr, arg, True):
+                    spr.kill()
+
     def collision_check(self):
         if self.player.lasers.sprites():
-            for laser in self.player.lasers.sprites():
-                if pygame.sprite.spritecollide(laser, self.obstacles.blocks, True):
-                    laser.kill()
-
-                if pygame.sprite.spritecollide(laser, self.alien_controller.aliens, True):
-                    laser.kill()
-
+            self.check_sprite(self.player.lasers.sprites(), self.obstacles.blocks, self.alien_controller.aliens)
         if self.alien_controller.aliens_lasers:
+            self.check_sprite(self.alien_controller.aliens_lasers.sprites(), self.obstacles.blocks)
             for laser in self.alien_controller.aliens_lasers.sprites():
-                if pygame.sprite.spritecollide(laser, self.obstacles.blocks, True):
-                    laser.kill()
-
                 if pygame.sprite.spritecollide(laser, self.player_sprite, False):
                     laser.kill()
                     self.player.number_of_lives -= 1

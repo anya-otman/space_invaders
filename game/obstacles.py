@@ -1,5 +1,5 @@
 import pygame
-from block import Block
+from game.block import Block
 
 
 class Obstacles(pygame.sprite.Sprite):

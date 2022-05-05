@@ -1,5 +1,5 @@
 import pygame
-from laser import Laser
+from game.laser import Laser
 from math import pi
 
 
