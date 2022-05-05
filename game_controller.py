@@ -1,7 +1,4 @@
-import sys
-
 import pygame
-
 from alien_controller import AlienController
 from player import Player
 from obstacles import Obstacles
@@ -30,11 +27,13 @@ class GameController:
                     laser.kill()
 
                 if pygame.sprite.spritecollide(laser, self.player_sprite, False):
-                    self.running = False
+                    laser.kill()
+                    self.player.number_of_lives -= 1
+                    if self.player.number_of_lives == 0:
+                        self.running = False
 
     def run(self):
         if self.running:
             self.player.update()
             self.alien_controller.update()
             self.collision_check()
-

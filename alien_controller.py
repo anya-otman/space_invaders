@@ -1,6 +1,6 @@
 import pygame.sprite
 import pygame
-
+from math import pi
 from alien import Alien
 from laser import Laser
 from random import choice
@@ -33,7 +33,7 @@ class AlienController:
     def alien_shoot(self):
         if self.aliens.sprites():
             random_alien = choice(self.aliens.sprites())
-            laser_sprite = Laser(random_alien.rect.center, 5, self.screen_height)
+            laser_sprite = Laser(random_alien.rect.center, 5, pi/2, self.screen_width)
             self.aliens_lasers.add(laser_sprite)
 
     def update(self):

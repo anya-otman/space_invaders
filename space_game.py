@@ -10,7 +10,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((screen_width, screen_height))
     clock = pygame.time.Clock()
     game_controller = GameController(screen_width, screen_height)
-    gui = Gui(screen)
+    gui = Gui(screen, screen_width)
 
     ALIENLASER = pygame.USEREVENT + 1
     pygame.time.set_timer(ALIENLASER, 800)
