@@ -3,7 +3,7 @@ from game.block import Block
 
 
 class Obstacles(pygame.sprite.Sprite):
-    def __init__(self, screen_width):
+    def __init__(self, screen_width: int):
         super().__init__()
         self.shape = shape
         self.block_size = 6
@@ -13,6 +13,12 @@ class Obstacles(pygame.sprite.Sprite):
         self.create_multiple_obstacles(*self.obstacle_x_positions, x_start=screen_width / 15, y_start=480)
 
     def create_obstacle(self, x_start, y_start, offset_x):
+        """
+        creates one obstacle with the specified coordinates and offset
+        :param x_start: initial x position of the obstacle
+        :param y_start: initial y position of the obstacle
+        :param offset_x: offset of the obstacle position by the x coordinate
+        """
         for row_index, row in enumerate(self.shape):
             for col_index, col in enumerate(row):
                 if col == 'x':
@@ -22,6 +28,7 @@ class Obstacles(pygame.sprite.Sprite):
                     self.blocks.add(block)
 
     def create_multiple_obstacles(self, *offset, x_start, y_start):
+        """creates a lot of obstacles"""
         for offset_x in offset:
             self.create_obstacle(x_start, y_start, offset_x)
 

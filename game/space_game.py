@@ -5,6 +5,7 @@ from gui import Gui
 
 
 def start():
+    """updates game's state and draws it on the screen every 60 milliseconds"""
     pygame.init()
     screen_width = 600
     screen_height = 600
