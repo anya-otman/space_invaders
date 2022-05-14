@@ -5,7 +5,7 @@ class Alien(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int):
         super().__init__()
         self.image = pygame.image.load('../images/alien.png')
-        self.rect = pygame.Surface((60, 30)).get_rect(midbottom=(x, y))
+        self.rect = pygame.Surface((40, 32)).get_rect(center=(x, y))
         self.speed = 1
 
     def update(self, direction: int):

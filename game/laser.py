@@ -7,7 +7,7 @@ class Laser(pygame.sprite.Sprite):
     def __init__(self, position: tuple[int, int], speed: int, angle: float, screen_width: int):
         super().__init__()
         self.color = (255, 255, 255)
-        self.image = pygame.Surface((7, 10))
+        self.image = pygame.Surface((6, 10))
         self.image.fill(self.color)
         self.speed = speed
         self.angle = angle

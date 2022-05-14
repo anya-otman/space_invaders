@@ -23,7 +23,7 @@ def start():
                 pygame.quit()
                 sys.exit()
             if event.type == ALIENLASER:
-                game_controller.alien_controller.shoot()
+                game_controller.alien_group.shoot()
 
         screen.fill((30, 30, 30))
         game_controller.run()

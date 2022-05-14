@@ -1,18 +1,18 @@
-import pygame.sprite
 import pygame
+import pygame.sprite
 from math import pi
 from game.alien import Alien
-from laser import Laser
+from game.laser import Laser
 from random import choice
 
 
-class AlienController:
-    def __init__(self, x: int, y: int, screen_width: int, screen_height: int):
+class AlienGroup:
+    def __init__(self, rows: int, cols: int, screen_width: int, screen_height: int):
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.aliens = pygame.sprite.Group()
         self.aliens_lasers = pygame.sprite.Group()
-        self.create(x, y)
+        self.create(rows, cols)
         self.direction = 1
 
     def create(self, rows: int, cols: int, x_distance=60, y_distance=48, x_offset=70, y_offset=100):
@@ -33,7 +33,7 @@ class AlienController:
                 self.aliens.add(alien)
 
     def check_position(self):
-        """checks the position of the alien and doesn't allow to go beyond the screen"""
+        """checks the position of the alien and doesn't allow it to go beyond the screen"""
         for alien in self.aliens.sprites():
             if alien.rect.right >= self.screen_width:
                 self.direction = -1

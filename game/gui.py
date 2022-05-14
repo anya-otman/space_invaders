@@ -39,8 +39,8 @@ class Gui:
             game_controller.player_sprite.sprite.lasers.draw(self.screen)
             game_controller.player_sprite.draw(self.screen)
             self.display_lives(game_controller.player.number_of_lives)
-            game_controller.alien_controller.aliens.draw(self.screen)
-            game_controller.alien_controller.aliens_lasers.draw(self.screen)
+            game_controller.alien_group.aliens.draw(self.screen)
+            game_controller.alien_group.aliens_lasers.draw(self.screen)
             game_controller.obstacles.blocks.draw(self.screen)
         elif game_controller.player.number_of_lives == 0:
             self.loss_message()
