@@ -1,11 +1,14 @@
 import pygame
 
+WHITE = (255, 255, 255)
+
 
 class Gui:
     def __init__(self, screen, screen_width: int):
         self.screen = screen
         self.screen_width = screen_width
-        self.font = pygame.font.SysFont('arial', 36)
+        # self.font = pygame.font.SysFont('arial', 36)
+        self.font = pygame.font.Font('../font/Pixeled.ttf', 20)
         self.live_surf = pygame.image.load('../images/life.png').convert_alpha()
 
     def display_lives(self, number_of_lives: int):
@@ -18,17 +21,24 @@ class Gui:
             x = lives_x_start_pos + (live * (self.live_surf.get_size()[0] + 10))
             self.screen.blit(self.live_surf, (x, 8))
 
+    def print_message(self, message: str, pos):
+        """prints a message on the screen
+        :param message: message text
+        :param pos: position of the text on the screen
+        """
+        surf = self.font.render(message, False, WHITE)
+        rect = surf.get_rect(center=pos)
+        self.screen.blit(surf, rect)
+
     def loss_message(self):
         """shows the message about losing in the end of game"""
-        loss_surf = self.font.render('You lose', False, (255, 255, 255))
-        loss_rect = loss_surf.get_rect(center=(300, 300))
-        self.screen.blit(loss_surf, loss_rect)
+        self.print_message('You lose', (300, 250))
+        self.print_message('press N to start new game', (300, 300))
 
     def victory_message(self):
         """shows the message about victory in the end of game"""
-        victory_surf = self.font.render('You win', False, (255, 255, 255))
-        victory_rect = victory_surf.get_rect(center=(300, 300))
-        self.screen.blit(victory_surf, victory_rect)
+        self.print_message('You win', (300, 250))
+        self.print_message('press N to start new game', (300, 300))
 
     def draw_state(self, game_controller):
         """
@@ -41,6 +51,7 @@ class Gui:
             self.display_lives(game_controller.player.number_of_lives)
             game_controller.alien_group.aliens.draw(self.screen)
             game_controller.alien_group.aliens_lasers.draw(self.screen)
+            game_controller.alien_group.extra_aliens.draw(self.screen)
             game_controller.obstacles.blocks.draw(self.screen)
         elif game_controller.player.number_of_lives == 0:
             self.loss_message()

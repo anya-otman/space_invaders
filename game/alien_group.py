@@ -2,8 +2,9 @@ import pygame
 import pygame.sprite
 from math import pi
 from game.alien import Alien
+from game.extra_alien import ExtraAlien
 from game.laser import Laser
-from random import choice
+from random import choice, randint
 
 
 class AlienGroup:
@@ -14,6 +15,8 @@ class AlienGroup:
         self.aliens_lasers = pygame.sprite.Group()
         self.create(rows, cols)
         self.direction = 1
+        self.extra_aliens = pygame.sprite.Group()
+        self.extra_alien_timer = randint(600, 1000)
 
     def create(self, rows: int, cols: int, x_distance=60, y_distance=48, x_offset=70, y_offset=100):
         """
@@ -44,12 +47,27 @@ class AlienGroup:
         """selects a random shooting enemy"""
         if self.aliens.sprites():
             random_alien = choice(self.aliens.sprites())
-            laser_sprite = Laser(random_alien.rect.center, 5, pi/2, self.screen_width)
-            self.aliens_lasers.add(laser_sprite)
+            rnd_int = randint(0, 8)
+            if rnd_int == 5:
+                laser_sprite = Laser(random_alien.rect.center, 5, pi / 2, self.screen_width, True)
+                self.aliens_lasers.add(laser_sprite)
+            else:
+                laser_sprite = Laser(random_alien.rect.center, 5, pi / 2, self.screen_width)
+                self.aliens_lasers.add(laser_sprite)
+
+    def check_extra_alien_timer(self):
+        """updates extra alien timer and create extra alien"""
+        self.extra_alien_timer -= 1
+        if self.extra_alien_timer <= 0:
+            self.extra_aliens.add(ExtraAlien(-10, 40, self.screen_width))
+            self.extra_alien_timer = randint(600, 1000)
 
     def update(self):
         """updates the state of aliens"""
         self.aliens_lasers.update()
         self.check_position()
+        self.check_extra_alien_timer()
         for alien in self.aliens:
             alien.update(self.direction)
+        for extra_alien in self.extra_aliens:
+            extra_alien.update()

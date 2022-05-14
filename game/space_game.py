@@ -24,7 +24,9 @@ def start():
                 sys.exit()
             if event.type == ALIENLASER:
                 game_controller.alien_group.shoot()
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_n and not game_controller.running:
+                    game_controller = GameController(screen_width, screen_height)
         screen.fill((30, 30, 30))
         game_controller.run()
         gui.draw_state(game_controller)

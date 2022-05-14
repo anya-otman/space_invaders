@@ -15,17 +15,19 @@ class GameController:
     def collision_check(self):
         """checks laser and player or obstacle collision"""
         if self.player.lasers.sprites():
-            self.check_collision_with_game_object(self.player.lasers.sprites(), self.obstacles.blocks, self.alien_group.aliens)
+            self.check_laser_collision_with_game_object(self.player.lasers, self.obstacles.blocks,
+                                                        self.alien_group.aliens, self.alien_group.extra_aliens)
         if self.alien_group.aliens_lasers:
-            self.check_collision_with_game_object(self.alien_group.aliens_lasers.sprites(), self.obstacles.blocks)
+            self.check_laser_collision_with_game_object(self.alien_group.aliens_lasers, self.obstacles.blocks)
             self.check_collision_with_player(self.alien_group.aliens_lasers.sprites(), self.player_sprite)
 
-    def check_collision_with_game_object(self, sprites: list, *args):
+    def check_laser_collision_with_game_object(self, lasers: list, *args):
         """checks collision and deletes an object if a collision has occurred"""
-        for spr in sprites:
+        for laser in lasers:
             for arg in args:
-                if pygame.sprite.spritecollide(spr, arg, True):
-                    spr.kill()
+                if pygame.sprite.spritecollide(laser, arg, True):
+                    if not laser.super_laser:
+                        laser.kill()
 
     def check_collision_with_player(self, sprites: list, player):
         for laser in sprites:
