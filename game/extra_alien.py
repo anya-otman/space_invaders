@@ -10,8 +10,8 @@ class ExtraAlien(pygame.sprite.Sprite):
         self.screen_width = screen_width
 
     def destroy(self):
-        """deletes extra_alien if it's out of the screen"""
-        if self.rect.x >= self.screen_width + 50:
+        """deletes extra alien if it's out of the screen"""
+        if self.rect.x >= self.screen_width:
             self.kill()
 
     def update(self):

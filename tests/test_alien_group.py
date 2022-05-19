@@ -33,22 +33,46 @@ class AlienGroupTestCase(unittest.TestCase):
 
     def test_chek_position_with_positive_direction(self):
         alien_group = AlienGroup(5, 8, 600, 600)
+        alien_group.direction_x = 1
         for i in range(100):
             alien_group.update()
 
-        alien_group_direction = alien_group.direction
-        expected_alien_group_direction = -1
-        self.assertEqual(expected_alien_group_direction, alien_group_direction)
+        alien_group_direction_x = alien_group.direction_x
+        expected_alien_group_direction_x = -1
+        self.assertEqual(expected_alien_group_direction_x, alien_group_direction_x)
 
     def test_chek_position_with_negative_direction(self):
         alien_group = AlienGroup(5, 8, 600, 600)
-        alien_group.direction = -1
+        alien_group.direction_x = -1
         for i in range(100):
             alien_group.update()
 
-        alien_group_direction = alien_group.direction
-        expected_alien_group_direction = 1
-        self.assertEqual(expected_alien_group_direction, alien_group_direction)
+        alien_group_direction_x = alien_group.direction_x
+        expected_alien_group_direction_x = 1
+        self.assertEqual(expected_alien_group_direction_x, alien_group_direction_x)
+
+    def test_move_down(self):
+        alien_group = AlienGroup(5, 8, 600, 600)
+        alien_group.direction_y = 1
+        alien_group.move_down()
+
+        alien_y = alien_group.aliens.sprites().pop(1).rect.y
+        expected_alien_y = AlienGroup(5, 8, 600, 600).aliens.sprites().pop(1).rect.y + 1
+        self.assertEqual(expected_alien_y, alien_y)
+
+    def test_check_position_with_move_down_direction_x_and_coordinate_y_should_change(self):
+        alien_group = AlienGroup(5, 8, 600, 600)
+        alien_group.direction_x = 1
+        alien_group.direction_y = 1
+        for i in range(100):
+            alien_group.update()
+
+        alien_group_direction_x = alien_group.direction_x
+        expected_alien_group_direction_x = -1
+        alien_y = alien_group.aliens.sprites().pop(1).rect.y
+        expected_alien_y = AlienGroup(5, 8, 600, 600).aliens.sprites().pop(1).rect.y + 5
+        self.assertEqual(expected_alien_group_direction_x, alien_group_direction_x)
+        self.assertEqual(expected_alien_y, alien_y)
 
     def test_shoot_with_aliens_one_call_one_laser(self):
         alien_group = AlienGroup(2, 2, 600, 600)
@@ -74,6 +98,23 @@ class AlienGroupTestCase(unittest.TestCase):
         count_of_aliens_lasers = len(alien_group.aliens_lasers)
         expected_count_of_aliens_lasers = 0
         self.assertEqual(expected_count_of_aliens_lasers, count_of_aliens_lasers)
+
+    def test_check_extra_alien_timer_one_call_no_extra_aliens(self):
+        alien_group = AlienGroup(2, 2, 600, 600)
+        alien_group.check_extra_alien_timer()
+
+        count_of_extra_aliens = len(alien_group.extra_aliens)
+        expected_count_of_extra_aliens = 0
+        self.assertEqual(expected_count_of_extra_aliens, count_of_extra_aliens)
+
+    def test_check_extra_alien_timer_several_calls_one_extra_alien(self):
+        alien_group = AlienGroup(2, 2, 600, 600)
+        for i in range(1000):
+            alien_group.check_extra_alien_timer()
+
+        count_of_extra_aliens = len(alien_group.extra_aliens)
+        expected_count_of_extra_aliens = 1
+        self.assertEqual(expected_count_of_extra_aliens, count_of_extra_aliens)
 
 
 if __name__ == '__main__':

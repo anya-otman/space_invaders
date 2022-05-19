@@ -19,7 +19,7 @@ class Laser(pygame.sprite.Sprite):
 
     def destroy(self):
         """deletes laser if it's out of the screen"""
-        if self.rect.y <= 0:
+        if self.rect.y <= 0 or self.rect.y >= 600:
             self.kill()
 
     def change_direction(self):

@@ -4,12 +4,12 @@ from math import pi
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, position, constraint: int):
+    def __init__(self, position, constraint: int, lives: int):
         super().__init__()
         self.image = pygame.image.load("../images/player.png")
         self.rect = pygame.Surface((60, 30)).get_rect(midbottom=position)
         self.max_x_constraint = constraint
-        self.number_of_lives = 3
+        self.number_of_lives = lives
         self.ready_to_shoot = True
         self.laser_time = 0
         self.laser_cooldown = 600  # shoot every 600 milliseconds
