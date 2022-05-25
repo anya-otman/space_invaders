@@ -4,6 +4,8 @@ from math import pi
 from game.alien import Alien
 from game.extra_alien import ExtraAlien
 from game.laser import Laser
+from game.bonus import Bonus
+from game.bonus_type import BonusType
 from random import choice
 
 
@@ -13,12 +15,16 @@ class AlienGroup:
         self.screen_height = screen_height
         self.aliens = pygame.sprite.Group()
         self.aliens_lasers = pygame.sprite.Group()
+        self.aliens_f_bonuses = pygame.sprite.Group()
+        self.aliens_pr_bonuses = pygame.sprite.Group()
         self.create(rows, cols)
         self.direction_x = 0
         self.direction_y = 0
         self.extra_aliens = pygame.sprite.Group()
         self.extra_alien_timer = 1000
         self.super_laser_timer = 8
+        self.bonus_f_timer = 28
+        self.bonus_pr_timer = 35
 
     def create(self, rows: int, cols: int, x_distance=60, y_distance=48, x_offset=90, y_offset=100):
         """
@@ -68,6 +74,21 @@ class AlienGroup:
                 laser_sprite = Laser(random_alien.rect.center, 5, pi / 2, self.screen_width)
                 self.aliens_lasers.add(laser_sprite)
 
+    def give_bonus(self):
+        """selects a random enemy that shoots bonuses"""
+        if self.aliens.sprites():
+            random_alien = choice(self.aliens.sprites())
+            self.bonus_f_timer -= 1
+            self.bonus_pr_timer -= 1
+            if self.bonus_f_timer == 0:
+                bonus_sprite = Bonus(random_alien.rect.center, 5, BonusType.firing_acceleration.value)
+                self.aliens_f_bonuses.add(bonus_sprite)
+                self.bonus_f_timer = 28
+            elif self.bonus_pr_timer == 0:
+                bonus_sprite = Bonus(random_alien.rect.center, 5, BonusType.protection.value)
+                self.aliens_pr_bonuses.add(bonus_sprite)
+                self.bonus_pr_timer = 41
+
     def check_extra_alien_timer(self):
         """updates extra alien timer and creates new extra alien if timer time is out"""
         self.extra_alien_timer -= 1
@@ -78,6 +99,8 @@ class AlienGroup:
     def update(self):
         """updates the state of aliens"""
         self.aliens_lasers.update()
+        self.aliens_f_bonuses.update()
+        self.aliens_pr_bonuses.update()
         self.check_position()
         self.check_extra_alien_timer()
         for alien in self.aliens:

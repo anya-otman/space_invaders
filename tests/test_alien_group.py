@@ -116,6 +116,38 @@ class AlienGroupTestCase(unittest.TestCase):
         expected_count_of_extra_aliens = 1
         self.assertEqual(expected_count_of_extra_aliens, count_of_extra_aliens)
 
+    def test_give_bonus_after_one_call_all_timers_should_change(self):
+        alien_group = AlienGroup(2, 2, 600, 600)
+        alien_group.bonus_pr_timer = 2
+        alien_group.bonus_f_timer = 2
+        alien_group.give_bonus()
+
+        alien_group_bonus_pr_timer = alien_group.bonus_pr_timer
+        expected_alien_group_bonus_pr_timer = 1
+
+        alien_group_bonus_f_timer = alien_group.bonus_f_timer
+        expected_alien_group_bonus_f_timer = 1
+        self.assertEqual(expected_alien_group_bonus_f_timer, alien_group_bonus_f_timer)
+        self.assertEqual(expected_alien_group_bonus_pr_timer, alien_group_bonus_pr_timer)
+
+    def test_give_bonus_bonus_pr_timer_is_out_one_pr_bonus_should_appear(self):
+        alien_group = AlienGroup(2, 2, 600, 600)
+        alien_group.bonus_pr_timer = 1
+        alien_group.give_bonus()
+
+        count_of_pr_bonuses = len(alien_group.aliens_pr_bonuses)
+        expected_count_of_pr_bonuses = 1
+        self.assertEqual(expected_count_of_pr_bonuses, count_of_pr_bonuses)
+
+    def test_give_bonus_bonus_f_timer_is_out_one_f_bonus_should_appear(self):
+        alien_group = AlienGroup(2, 2, 600, 600)
+        alien_group.bonus_f_timer = 1
+        alien_group.give_bonus()
+
+        count_of_f_bonuses = len(alien_group.aliens_f_bonuses)
+        expected_count_of_f_bonuses = 1
+        self.assertEqual(expected_count_of_f_bonuses, count_of_f_bonuses)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -7,7 +7,6 @@ class Gui:
     def __init__(self, screen, screen_width: int):
         self.screen = screen
         self.screen_width = screen_width
-        # self.font = pygame.font.SysFont('arial', 36)
         self.font = pygame.font.Font('../font/Pixeled.ttf', 20)
         self.live_surf = pygame.image.load('../images/life.png').convert_alpha()
 
@@ -21,13 +20,13 @@ class Gui:
             x = lives_x_start_pos + (live * (self.live_surf.get_size()[0] + 10))
             self.screen.blit(self.live_surf, (x, 8))
 
-    def print_message(self, message: str, pos):
+    def print_message(self, message: str, position):
         """prints a message on the screen
         :param message: message text
-        :param pos: position of the text on the screen
+        :param position: position of the text on the screen
         """
         surf = self.font.render(message, False, WHITE)
-        rect = surf.get_rect(center=pos)
+        rect = surf.get_rect(center=position)
         self.screen.blit(surf, rect)
 
     def loss_message(self):
@@ -37,7 +36,7 @@ class Gui:
 
     def victory_message(self):
         """shows the message about victory in the end of game"""
-        self.print_message('You win', (300, 250))
+        self.print_message('You WIN!', (300, 250))
         self.print_message('press N to start new game', (300, 300))
 
     def next_level_message(self):
@@ -65,6 +64,8 @@ class Gui:
                 game_controller.alien_group.aliens_lasers.draw(self.screen)
                 game_controller.alien_group.extra_aliens.draw(self.screen)
                 game_controller.obstacles.blocks.draw(self.screen)
+                game_controller.alien_group.aliens_f_bonuses.draw(self.screen)
+                game_controller.alien_group.aliens_pr_bonuses.draw(self.screen)
         elif game_controller.player.number_of_lives == 0 or game_controller.alien_group.aliens:
             self.loss_message()
         elif game_controller.level == 3:

@@ -81,7 +81,7 @@ class LaserTestCase(unittest.TestCase):
         laser.update()
         self.assertEqual(len(lasers.sprites()), 0)
 
-    def test_movement_in_a_positive_direction(self):
+    def test_destroy_movement_in_a_positive_direction(self):
         laser = Laser((600, 0), 5, pi / 2, 600)
         lasers = pygame.sprite.Group()
         lasers.add(laser)
